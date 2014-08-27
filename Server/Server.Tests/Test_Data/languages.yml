@@ -1,0 +1,8 @@
+C#:
+  frameworks:
+    - WPF - Windows Presentaion Foundation
+    - LINQ
+Java:
+  frameworks:
+    - Lucene
+AutoIt:

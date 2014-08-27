@@ -1,0 +1,28 @@
+$-firstColor: #456e71;
+$-secondColor: #82bbd9;
+$-thirdColor: #742F05;
+
+$-firstFont: 'Cuprum', sans-serif;
+$-secondFont: 'Lobster Two', cursive;
+
+$body-bg: #a5cfe4;
+$container-large-desktop: 1054px;
+$font-family-base: $-firstFont;
+$font-size-base: 18px;
+$font-size-large: 20px;
+$grid-float-breakpoint-max: 20000px;
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+$nav-tabs-active-link-hover-border-color: $-firstColor;
+$nav-tabs-border-color: $-firstColor;
+$navbar-default-bg: rgba(0, 0, 0, 0);
+$navbar-default-brand-hover-bg: $-secondColor;
+$navbar-default-link-active-bg: $-secondColor;
+$navbar-default-link-active-color: $-firstColor;
+$navbar-default-link-color: $-firstColor;
+$navbar-default-link-hover-bg: $-secondColor;
+$navbar-default-link-hover-color: $-firstColor;
+$navbar-default-toggle-hover-bg: $-secondColor;
+$screen-sm-min: 768px;
+$screen-md-min: 992px;
+
+@import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss";

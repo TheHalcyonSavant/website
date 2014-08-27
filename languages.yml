@@ -1,0 +1,41 @@
+C#:
+  frameworks:
+    - ASP.NET
+    - WebApi
+    - Entity Framework
+    - OWIN
+    - Breeze.NET
+    - Octokit.NET
+    - YamlDotNet
+    - LINQ
+    - Lambda Expressions
+    - Regular Expressions
+    - xUnit
+    - Moq
+    - Fluent Assertions
+    - WebActivator
+    - Unity 3
+SQL Server:
+HTML 4/5:
+CSS 3:
+  frameworks:
+    - SASS
+    - Compass
+    - Autoprefixer
+    - Twitter Bootstrap
+JavaScript:
+  frameworks:
+	  - AngularJS
+	  - Breeze - Angular
+	  - Lo-Dash
+	  - jQuery
+	  - JSHint
+	  - Jasmine
+	  - Google Analytics
+NodeJS Tools:
+  frameworks:
+    - Yeoman
+    - NPM
+    - Grunt
+    - Karma
+    - Protractor

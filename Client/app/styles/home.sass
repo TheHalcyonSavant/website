@@ -1,0 +1,30 @@
+@import "_vars"
+
+main
+	.skillHeader > span
+		font-size: 28px
+
+	.skillsTable
+		margin-bottom: 2em
+
+		.row
+			margin: 0
+
+		.col-sm-3
+			border: .2em solid $-firstColor
+			border-radius: 5px
+			font-size: $font-size-base - 2
+			padding: 0
+
+		.col-sm-offset-1
+			@media (min-width: $screen-md-min)
+				margin-left: 12.5%
+
+		ul.list-unstyled
+			margin: 0
+
+		li
+			padding: .2em .5em
+
+		li:not(:last-child)
+			border-bottom: 2px dashed $-firstColor

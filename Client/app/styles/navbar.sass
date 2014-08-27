@@ -1,0 +1,54 @@
+@import "_vars"
+
+.navbar-default
+	background-image: radial-gradient(50% 10%, circle, transparent 30%, $body-bg 100%), linear-gradient(to left, transparent, $-secondColor, transparent)
+	// ff doesn't recognise mix of linear and radial gradients
+	// background-image: radial-gradient(circle at 50% 10%, $-secondColor 30%, $body-bg 100%), linear-gradient(to left, $body-bg, $-secondColor, $body-bg)
+	background-color: transparent
+	border: 0
+	cursor: pointer
+	margin-bottom: 0
+	@media (min-width: $screen-sm-min)
+		padding-left: 2em
+
+	.navbar-header, .navbar-brand, .navbar-left, .navbar-right, .navbar-nav, .navbar-nav > li
+		float: none !important
+
+	.navbar-brand
+		display: block
+		font-family: $-secondFont
+
+	.navbar-brand.active
+		background: $-secondColor
+
+	.navbar-collapse
+		padding-right: 0
+		overflow-x: hidden
+
+	.navbar-nav
+		margin-top: 7.5px
+
+		> li > a, > .open > a
+			background-color: transparent
+
+		> .active > a
+			background-color: $-secondColor
+
+		.dropdown-menu > li > a
+			white-space: pre-wrap
+
+	.navbar-nav > li > a
+		padding-top: 10px
+		padding-bottom: 10px
+
+	a
+		transition: background-color .8s ease-out, box-shadow .8s ease
+
+	a:hover, li.active > a, .navbar-brand.active
+		box-shadow: 0px 0px 25px 15px $-secondColor
+
+	.skipHover:hover
+		background-color: transparent !important
+		box-shadow: none
+		cursor: default
+		color: $-firstColor

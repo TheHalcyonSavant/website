@@ -1,0 +1,23 @@
+<h2 class="skillHeader" ng-init="attachSkill()">
+	<b>{{getParentHeader()}}</b><span> {{getChildrenHeader()}}</span>
+</h2>
+
+<h4>Projects:</h4>
+<ul class="list-unstyled projectsTable">
+	<li ng-repeat="m in skill.Maps" ng-click="setReadme(m.Project)">
+		<p>
+			<a class="ghLink" ng-href="https://github.com/TheHalcyonSavant/{{m.Project.Name}}" target="_blank"><img src="images/github.png" />See on GitHub</a>
+			<span>{{$index + 1}}.</span>
+			<span class="projectName">{{m.Project.Name}}</span>
+			<span class="projectDescription"> - {{m.Project.Description}}</span>
+		</p>
+	</li>
+</ul>
+
+<tabset>
+	<tab heading="Readme">
+		<div class="readme" ng-bind-html="readme"></div>
+	</tab>
+	<tab heading="Demo" ng-if="hasDemo">
+	</tab>
+</tabset>

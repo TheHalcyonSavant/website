@@ -1,0 +1,133 @@
+<h2 class="" ng-init="initQATs()">Questions and Answers</h2>
+
+<div class="filters">
+	<div class="row">
+		<div class="col-md-2">
+			<button class="btn btn-primary btn-xs" ng-click="showTagsDlg()">Edit Tags</button>
+		</div>
+		<div class="col-md-10">
+			<div class="form-group tagFilter">
+				<select ui-select2 multiple ng-model="filterModel.Tags" class="form-control input-sm" data-placeholder="Tag filter">
+					<option ng-repeat="tag in allTags" value="{{tag.Id}}">{{tag.Name}}</option>
+				</select>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="form-group">
+				<input ng-model="filterModel.Question" class="form-control input-sm" placeholder="Question filter" />
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="form-group">
+				<input ng-model="filterModel.Answer" class="form-control input-sm" placeholder="Answer filter" />
+			</div>
+		</div>
+	</div>
+	<div class="row lastRow">
+		<div class="col-md-4">
+			<div class="form-gorup">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" ng-model="filterModel.NoTags" ng-disabled="filterModel.NotAnswered" /> With No Tags
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-5">
+			<div class="form-gorup">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" ng-model="filterModel.NotAnswered" ng-disabled="filterModel.NoTags" /> Not Answered
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3 text-right">
+			<button id="btnClearFilters" class="btn btn-default btn-sm" ng-click="clearFilters()">Clear filters</button>
+		</div>
+	</div>
+</div>
+
+<div class="text-center">
+	<button class="btn btn-primary btn-sm" ng-click="showQnADlg()">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add new question
+	</button>
+</div>
+
+<accordion close-others="true">
+	<accordion-group ng-repeat="qna in QnAs | filter:filterQAT">
+		<accordion-heading>
+			<div class="row">
+				<div class="col-sm-7 question">{{qna.Question}}</div>
+				<div class="col-sm-5 text-right">
+					<select class="input-sm" ui-select2 multiple ng-model="qna.TagIds" disabled ng-show="qna.TagIds.length > 0">
+						<option ng-repeat="tag in allTags" value="{{tag.Id}}">{{tag.Name}}</option>
+					</select>
+				</div>
+			</div>
+		</accordion-heading>
+		<p>{{qna.Answer}}</p>
+		<div class="text-right">
+			<button class="btn btn-warning btn-sm" ng-click="showQnADlg(qna)">
+				<span class="glyphicon glyphicon-pencil"></span>
+			</button>
+			<button class="btn btn-danger btn-sm" ng-click="deleteQnA(qna, $index)">
+				<span class="glyphicon glyphicon-minus-sign"></span>
+			</button>
+		</div>
+	</accordion-group>
+</accordion>
+
+<script type="text/ng-template" id="modals/editTags.html">
+	<div class="modal-header">Edit Tags</div>
+	<div class="modal-body">
+		<div class="tagsGrid" ng-grid="tagsGridOptions"></div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" ng-click="save()">Save</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="gridBtnDeleteCell.html">
+	<div class="ngCellText cellBtnDeleteRow" ng-if="row.entity.Id">
+		<button class="btn btn-danger btn-xs" ng-click="deleteTag()">
+			<span class="glyphicon glyphicon-minus-sign"></span>
+		</button>
+	</div>
+</script>
+
+<script type="text/ng-template" id="modals/editQnA.html">
+	<div class="modal-header">Edit Question</div>
+	<div class="modal-body">
+		<form class="form-horizontal" name="qnaForm" role="form">
+			<div class="form-group" ng-class="{'has-error': qnaForm.inputQuestion.$invalid}">
+				<label for="inputQuestion" class="col-sm-2 control-label">Question:</label>
+				<div class="col-sm-10">
+					<input class="form-control input-sm" id="inputQuestion" name="inputQuestion" placeholder="Question" ng-model="qna.Question" required in-view="setFocus($element)" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="selectTags" class="col-sm-2 control-label">Tags:</label>
+				<div class="col-sm-10">
+					<select id="selectTags" name="selectTags" class="form-control input-sm" ui-select2 multiple ng-model="qna.TagIds" data-placeholder="Tags">
+						<option ng-repeat="tag in allTags" value="{{tag.Id}}">{{tag.Name}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="textareaAnswer" class="col-sm-2 control-label">Answer:</label>
+				<div class="col-sm-10">
+					<textarea id="textareaAnswer" name="textareaAnswer" class="form-control input-sm" placeholder="Answer" ng-model="qna.Answer" rows="7"></textarea>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-success" ng-click="save()">Save</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
