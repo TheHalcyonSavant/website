@@ -3,7 +3,7 @@ The Halcyon Savant official website
 * [Client](Client)
 * [Server](Server)
 
-##Overview
+###Overview
 This webapp represents the personal website of The Halcyon Savant. To install and run this app visit the two links above for instructions. When everything is set up and running you will see aqua background screen with a top image header, left side menu and right side contents. The links that reside on the left side are explained as follows:
 
 ####Home
