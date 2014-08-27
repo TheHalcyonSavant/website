@@ -25,13 +25,13 @@ CSS 3:
     - Twitter Bootstrap
 JavaScript:
   frameworks:
-	  - AngularJS
-	  - Breeze - Angular
-	  - Lo-Dash
-	  - jQuery
-	  - JSHint
-	  - Jasmine
-	  - Google Analytics
+    - AngularJS
+    - Breeze - Angular
+    - Lo-Dash
+    - jQuery
+    - JSHint
+    - Jasmine
+    - Google Analytics
 NodeJS Tools:
   frameworks:
     - Yeoman
