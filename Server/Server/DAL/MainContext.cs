@@ -48,17 +48,13 @@ namespace Server.DAL
 
         public virtual DbSet<Tag> Tags { get; set; }
 
-        public AMainContext() : base("SQLServer")
-        {
-            Configuration.ProxyCreationEnabled = false;
-            Configuration.LazyLoadingEnabled = false;
-        }
-
         public AMainContext(string connection) : base(connection)
         {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
         }
+
+        public AMainContext() : this("SQLServer") { }
 
         public IQueryable<GHSkill> getAllSkillsWithProjects()
         {

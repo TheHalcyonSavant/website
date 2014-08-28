@@ -174,7 +174,8 @@ angular.module('clientApp')
 
         var query = breeze.EntityQuery
           .fromEntities(this.allSkills)
-          .where('ParentSkillId', '==', null);
+          .where('ParentSkillId', '==', null)
+          .orderBy('Name');
 
         return _manager.executeQueryLocally(query);
       },

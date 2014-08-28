@@ -123,6 +123,7 @@ namespace Server.DAL
                                 skill.SubSkills.Add(ss);
                             }
                         }
+                        skill.SubSkills = skill.SubSkills.OrderBy(s => s.Name).ToList();
                         skills.Add(skill);
                     }
                 }

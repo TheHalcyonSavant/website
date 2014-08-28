@@ -14,7 +14,7 @@ npm i -g protractor
 Open Git Bash, navigate to Client directory and run:
 ```bash
 npm install
-bower install
+bower update
 ```
 
 ###Run
