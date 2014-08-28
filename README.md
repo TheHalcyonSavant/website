@@ -19,3 +19,4 @@ This module represents a list (accordion) of all manually edited questions and t
 ####> Repopulate Skills
 The "Programming Languages" list is filled from your private database served by [Server](../Server) ASP.NET app. If you want your local DB to not be empty and be populated with the synchronized skills and projects from your GitHub profile, then you have to click this link. Every time you make changes to your personal repositories on GitHub you have to make sure they are synchronized with your local DB by clicking this link. Your ASP.NET server will delete the 3 SQL GH tables in the background and populate them again with the latest skills and projects.
 *Note: This module is for private use - available only to the host.*
+Test git
