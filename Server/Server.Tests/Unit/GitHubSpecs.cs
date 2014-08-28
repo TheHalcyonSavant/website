@@ -113,7 +113,7 @@ namespace Server.Tests.Unit
 
                 var subSkill = skill.SubSkills.Last();
                 subSkill.Should().NotBeNull();
-                subSkill.Name.Should().Be("LINQ");
+                subSkill.Name.Should().Contain("WPF");
                 subSkill.ParentSkill.Should().Be(skill);
 
                 skill = skills.SingleOrDefault(s => s.Name == "Java");
