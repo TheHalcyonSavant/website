@@ -196,7 +196,17 @@ module.exports = function (grunt) {
       testRunner: {
         src: ['<%= yeoman.test %>/runner.html'],
         devDependencies: true,
-        exclude: [/bootstrap-sass-official/]
+        exclude: [/bootstrap-sass-official/],
+        overrides: {
+          "jasmine": {
+            "main": [
+              "lib/jasmine-core/jasmine.css",
+              "lib/jasmine-core/jasmine.js",
+              "lib/jasmine-core/jasmine-html.js",
+              "lib/jasmine-core/boot.js"
+            ]
+          }
+        }
       },
       testKarma: {
         src: ['karma.conf.js'],
