@@ -1,12 +1,7 @@
-﻿using Breeze.ContextProvider;
-using Breeze.ContextProvider.EF6;
-using Moq;
-using Newtonsoft.Json.Linq;
+﻿using Moq;
 using Octokit;
-using Server.DAL;
 using Server.Models;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
@@ -104,31 +99,28 @@ namespace Server.Test_Data
         {
             new QnA
             {
-                Question = "I would like to ask you some question ?",
-                Answer = "You're free to ask me any question :)"
+                Question = "Test Question 1 ?",
+                Answer = "Test answer 1."
             },
             new QnA
             {
-                Question = "What is your greatest strength ?",
-                Answer = @"I have many strengths compared to other developers, like designing simple software from complex
-                    problems, fixing its bugs in a very short timespan. I've more understanding then others of the software's
-	                full potential and how to use this knowledge to maximize the consumers needs to their highest
-	                possible limit. And I really enjoy this kind of challenge."
+                Question = "Test Question 2 ?",
+                Answer = @"Test Answer 2."
             },
             new QnA
             {
-                Question = "What is a clousure ?",
-                Answer = "A clousure in JS is ...",
+                Question = "Test Question 3 ?",
+                Answer = "Test Answer 3.",
                 Order = 4
             },
             new QnA
             {
-                Question = "Bank advice ?",
+                Question = "Empty Question ?",
                 Answer = null
             },
             new QnA
             {
-                Question = "Describe JS pattern !",
+                Question = "Another question !",
                 Answer = "one, two, <h1>three</h1> ...",
                 Order = 2
             }

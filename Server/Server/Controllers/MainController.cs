@@ -55,8 +55,8 @@ namespace Server.Controllers
         {
             var ip = Request.GetClientIpAddress();
 
-            // private for testing and public for deployment
-            return ip == "127.0.0.1" || ip == "95.180.185.22" ? 1 : 0;
+            // private for testing, and public for deployment
+            return ip == "::1" || ip == "127.0.0.1" || ip == "95.180.185.22" ? 1 : 0;
         }
 
         // ~/breeze/Main/Metadata
