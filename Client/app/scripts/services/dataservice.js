@@ -169,7 +169,7 @@ angular.module('clientApp')
       getParentSkills: function (){
         if (this.allSkills.length === 0)
         {
-          throw new Error('allSkills = []; Call dataservice.initialize() first !');
+          throw new Error('allSkills = []; Click "Repopulate skills" first !');
         }
 
         var query = breeze.EntityQuery
