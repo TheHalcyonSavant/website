@@ -198,12 +198,12 @@ module.exports = function (grunt) {
         devDependencies: true,
         exclude: [/bootstrap-sass-official/],
         overrides: {
-          "jasmine": {
-            "main": [
-              "lib/jasmine-core/jasmine.css",
-              "lib/jasmine-core/jasmine.js",
-              "lib/jasmine-core/jasmine-html.js",
-              "lib/jasmine-core/boot.js"
+          'jasmine': {
+            'main': [
+              'lib/jasmine-core/jasmine.css',
+              'lib/jasmine-core/jasmine.js',
+              'lib/jasmine-core/jasmine-html.js',
+              'lib/jasmine-core/boot.js'
             ]
           }
         }
