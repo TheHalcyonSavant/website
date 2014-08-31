@@ -118,10 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="sp_CreateUser" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\SP\sp_CreateUser.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  <data name="CreateUserLogin" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SQL\CreateUserLogin.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
-  <data name="sp_GHTables" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sp_GHTables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
+  <data name="drop_sp1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SQL\drop_sp1.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
+  </data>
+  <data name="sp1_GHTables" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\SQL\sp1_GHTables.sql;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;windows-1251</value>
   </data>
 </root>
