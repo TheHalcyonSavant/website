@@ -35,7 +35,7 @@ angular.module('clientApp')
       }
 
       // new Tag case
-      // ensure the existance of an empty row at the end
+      // ensure the existence of an empty row at the end
       var lastEntity = _.last(allTags);
       if (lastEntity.Name)
       {
