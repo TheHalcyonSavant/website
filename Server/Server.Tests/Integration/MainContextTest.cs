@@ -12,7 +12,8 @@ namespace Server.Tests.Integration
         protected override void Seed(TestContext context)
         {
             base.Seed(context);
-            context.Database.ExecuteSqlCommand(Properties.Resources.sp_GHTables);
+            context.Database.ExecuteSqlCommand(Properties.Resources.drop_sp1);
+            context.Database.ExecuteSqlCommand(Properties.Resources.sp1_GHTables);
         }
     }
 

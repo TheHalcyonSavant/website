@@ -16,9 +16,13 @@ namespace Server.Controllers
 
         public TestController()
         {
-            // EFContextProvider doesn't work well with Unity 3 Dependency Injection
-            // when SaveChanges is called it uses old cached connection and outputs wierd EF exception
-            // this problem was very hard to debug
+            using (IMainContext context = new MainContext())
+            {
+                context.Database.ExecuteSqlCommand(Properties.Resources.drop_sp1);
+                context.Database.ExecuteSqlCommand(Properties.Resources.sp1_GHTables);
+                context.Database.ExecuteSqlCommand(Properties.Resources.CreateUserLogin);
+            }
+
             _cxtProvider = new TestProvider();
             _context = _cxtProvider.Context;
         }

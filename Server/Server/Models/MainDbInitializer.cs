@@ -9,9 +9,6 @@ namespace Server.Models
 
         protected override void Seed(MainContext context)
         {
-            context.Database.ExecuteSqlCommand(Properties.Resources.sp_CreateUser);
-            context.Database.ExecuteSqlCommand(Properties.Resources.sp_GHTables);
-
             var qnas = new List<QnA>();
             for (var i = 1; i <= 5; i++)
             {

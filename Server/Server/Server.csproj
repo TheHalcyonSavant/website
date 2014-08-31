@@ -184,9 +184,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\sp_GHTables.sql" />
-    <Content Include="SP\sp_CreateUser.sql" />
-    <Content Include="SP\sp_GHTables.sql" />
+    <Content Include="SQL\CreateUserLogin.sql" />
+    <Content Include="SQL\drop_sp1.sql" />
+    <Content Include="SQL\sp1_GHTables.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
