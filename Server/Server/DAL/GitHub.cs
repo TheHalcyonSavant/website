@@ -22,6 +22,8 @@ namespace Server.DAL
 
     public class GitHub : IGitHub
     {
+        private const string GH_USERNAME = "TheHalcyonSavant";
+
         private IGitHubClient _gitHubClient;
 
         private IMyHttpClient _myHttpClient;
@@ -62,14 +64,14 @@ namespace Server.DAL
         }
 
         // should be changed from HttpClient to Octokit GetContents service
-        // when it became available
+        // when becames available
         async Task<IDictionary<GHProject, Stream>> IGitHub.getProjectsStreams(ICollection<GHProject> projects)
         {
             IDictionary<GHProject, Stream> dict = new Dictionary<GHProject, Stream>();
 
             foreach (var p in projects)
             {
-                var link = String.Format("https://raw.githubusercontent.com/TheHalcyonSavant/{0}/master/languages.yml", p.Name);
+                var link = String.Format("https://raw.githubusercontent.com/{0}/{1}/master/languages.yml", GH_USERNAME, p.Name);
                 var response = await _myHttpClient.GetAsync(link).ConfigureAwait(false);
 
                 if (!response.IsSuccessStatusCode)
