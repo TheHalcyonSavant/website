@@ -128,7 +128,7 @@ describe('Service: dataservice', function (){
       spyOn(dataservice, 'getParentSkills').and.callThrough();
       
       expect(function() { dataservice.getParentSkills(); }).toThrow(
-        new Error('allSkills = []; Call dataservice.initialize() first !')
+        new Error('allSkills = []; Click "Repopulate skills" first !')
       );
       dataservice.allSkills = backup;
     });
