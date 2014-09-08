@@ -86,14 +86,9 @@ angular.module('clientApp')
         // null all currently edited TagIds
         _trackTagIdsChanges = false;
         _(this.Maps).each(function (m, i){
-          if (m.QnA.TagIds === null)
-          {
-            tempIds[i] = null;
-            return;
-          }
           // slice() <==> clone
           // if the array is not clonned first, the DOM is unnotified
-          tempIds[i] = m.QnA.TagIds.slice();
+          tempIds[i] = m.QnA.TagIds ? m.QnA.TagIds.slice() : [];
           m.QnA.TagIds = null;
         });
 
