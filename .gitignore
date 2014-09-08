@@ -1,1 +1,8 @@
 Deploy
+node_modules
+dist
+.tmp
+.sass-cache
+bower_components
+Client.sublime-project
+Client.sublime-workspace
