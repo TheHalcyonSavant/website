@@ -8,7 +8,8 @@ angular
     'cgBusy',
     'ui.router',
     'ui.select2',
-    'ngGrid',
+    'ui.grid',
+    'ui.grid.edit',
     'angular-inview',
     // load separated ui.bootstrap modules, because of bug inside ui.bootstrap
     // for some reason the navbar dropdown links aren't responding always on click event

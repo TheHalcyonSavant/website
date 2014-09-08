@@ -43,15 +43,19 @@ main
 		margin-bottom: 5px
 
 .editTagsDlg .modal-dialog
-	width: 300px
+	width: 350px
 
 .tagsGrid
-	width: 250px
+	width: 300px
 	height: 300px
 	margin: 0 auto
 
-	.colt0
+	.ui-grid-col0
 		text-align: right
+
+	// delete column
+	.ui-grid-header-cell:last-child .ui-grid-column-menu-button
+		display: none
 
 .cellBtnDeleteRow
 	padding: 1px

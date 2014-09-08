@@ -14,14 +14,19 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="form-group">
 				<input ng-model="filterModel.Question" class="form-control input-sm" placeholder="Question filter" />
 			</div>
 		</div>
-		<div class="col-md-6">
+		<div class="col-md-4">
 			<div class="form-group">
 				<input ng-model="filterModel.Answer" class="form-control input-sm" placeholder="Answer filter" />
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="form-group">
+				<input ng-model="filterModel.Everything" class="form-control input-sm" placeholder="Filter everything" ng-focus="$log.log(this)" />
 			</div>
 		</div>
 	</div>
@@ -84,7 +89,7 @@
 <script type="text/ng-template" id="modals/editTags.html">
 	<div class="modal-header">Edit Tags</div>
 	<div class="modal-body">
-		<div class="tagsGrid" ng-grid="tagsGridOptions"></div>
+		<div class="tagsGrid" ui-grid="tagsGridOptions" ui-grid-edit external-scopes="tagsGridScope"></div>
 	</div>
 	<div class="modal-footer">
 		<button class="btn btn-success" ng-click="save()">Save</button>
@@ -94,7 +99,7 @@
 
 <script type="text/ng-template" id="gridBtnDeleteCell.html">
 	<div class="ngCellText cellBtnDeleteRow" ng-if="row.entity.Id">
-		<button class="btn btn-danger btn-xs" ng-click="deleteTag()">
+		<button class="btn btn-danger btn-xs" ng-click="getExternalScopes().deleteTag(row.index)">
 			<span class="glyphicon glyphicon-minus-sign"></span>
 		</button>
 	</div>
