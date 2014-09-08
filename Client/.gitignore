@@ -3,4 +3,5 @@ dist
 .tmp
 .sass-cache
 bower_components
-*.sublime*
+*.sublime-project
+*.sublime-workspace
