@@ -16,13 +16,6 @@ namespace Server.Controllers
 
         public TestController()
         {
-            using (IMainContext context = new MainContext())
-            {
-                context.Database.ExecuteSqlCommand(Properties.Resources.drop_sp1);
-                context.Database.ExecuteSqlCommand(Properties.Resources.sp1_GHTables);
-                context.Database.ExecuteSqlCommand(Properties.Resources.CreateUserLogin);
-            }
-
             _cxtProvider = new TestProvider();
             _context = _cxtProvider.Context;
         }

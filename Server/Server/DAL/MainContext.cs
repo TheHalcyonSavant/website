@@ -91,7 +91,7 @@ namespace Server.DAL
     {
         static MainContext()
         {
-            //Database.SetInitializer(new MainDbInitializer());
+            Database.SetInitializer(new MainDbInitializer());
         }
     }
 

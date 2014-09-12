@@ -206,7 +206,7 @@
     <Compile Include="DAL\MainContext.cs" />
     <Compile Include="Models\GHProject.cs" />
     <Compile Include="Models\IEntity.cs" />
-    <Compile Include="Models\MainDbInitializer.cs" />
+    <Compile Include="DAL\MainDbInitializer.cs" />
     <Compile Include="Models\MapQAT.cs" />
     <Compile Include="Models\MapSP.cs" />
     <Compile Include="Models\QnA.cs" />

@@ -1,14 +1,18 @@
-﻿using Server.DAL;
+﻿using Server.Models;
 using System.Collections.Generic;
 using System.Data.Entity;
 
-namespace Server.Models
+namespace Server.DAL
 {
-    public class MainDbInitializer : DropCreateDatabaseAlways<MainContext>
+    public class MainDbInitializer : CreateDatabaseIfNotExists<MainContext>
     {
 
         protected override void Seed(MainContext context)
         {
+            context.Database.ExecuteSqlCommand(Properties.Resources.drop_sp1);
+            context.Database.ExecuteSqlCommand(Properties.Resources.sp1_GHTables);
+            context.Database.ExecuteSqlCommand(Properties.Resources.CreateUserLogin);
+
             var qnas = new List<QnA>();
             for (var i = 1; i <= 5; i++)
             {
