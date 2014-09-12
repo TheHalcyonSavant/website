@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('EditTagsCtrl', function ($scope, $modalInstance, dataservice, $modal, allTags, cancelChanges){
-
-    $scope.tagsData = allTags;
+  .controller('EditTagsCtrl', function ($scope, $modalInstance, $mainScope, $modal, dataservice, cancelChanges){
+    // slice <==> clone
+    var _originalAllTags = $mainScope.allTags.slice();
+    _originalAllTags[_originalAllTags.length - 1] = {};
 
     $scope.tagsGridOptions = {
       columnDefs: [
@@ -18,7 +19,7 @@ angular.module('clientApp')
           enableCellEdit: false
         }
       ],
-      data: 'tagsData',
+      data: $mainScope.allTags,
       enableRowSelection: false
     };
 
@@ -33,45 +34,42 @@ angular.module('clientApp')
           {
             rowEntity.entityAspect.rejectChanges();
           }
-
           return;
         }
-
         // new Tag case
         // ensure the existence of an empty row at the end
-        var lastEntity = _.last(allTags);
+        var lastEntity = _.last($mainScope.allTags);
         if (lastEntity.Name)
         {
           lastEntity = dataservice.createTag(lastEntity.Name);
-          allTags[allTags.length - 1] = lastEntity;
-          allTags.push({});
+          $mainScope.allTags[$mainScope.allTags.length - 1] = lastEntity;
+          $mainScope.allTags.push({});
           $scope.$apply();
-
-          return;
-        }
-
-        // edit Tag Name case
-        // refresh disabled tags in QnAs
-        if (rowEntity.renderQnAs)
-        {
-          rowEntity.renderQnAs();
         }
       });
     };
 
     $scope.tagsGridScope = {
-      deleteTag: function (i){
-        allTags[i].entityAspect.setDeleted();
-        allTags.splice(i, 1);
+      deleteTag: function (id){
+        var i = _.findIndex($mainScope.allTags, { Id: id });
+        $mainScope.allTags[i].entityAspect.setDeleted();
+        $mainScope.allTags.splice(i, 1);
       }
     };
 
     $scope.save = function (){
+      if (dataservice.hasChanges())
+      {
+        _originalAllTags = $mainScope.allTags.slice();
+        $mainScope.qInit = dataservice.saveTags();
+      }
       $modalInstance.close();
     };
 
     $scope.cancel = function (){
-      cancelChanges($modalInstance);
+      cancelChanges($modalInstance, function beforeRejectChanges(){
+        $mainScope.allTags = _originalAllTags.slice();
+      });
     };
  
   })
@@ -81,7 +79,7 @@ angular.module('clientApp')
     };
   })
   .factory('cancelChanges', function ($modal, dataservice){
-    return function ($modalInstance){
+    return function ($modalInstance, cb){
       if (!dataservice.hasChanges())
       {
         $modalInstance.dismiss('cancel');
@@ -97,6 +95,10 @@ angular.module('clientApp')
           }
         }
       }).result.then(function (){
+        if (_.isFunction(cb))
+        {
+          cb();
+        }
         dataservice.rejectChanges();
         $modalInstance.dismiss('cancel');
       });

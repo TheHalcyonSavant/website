@@ -7,135 +7,37 @@ angular.module('clientApp')
 
     var _manager = new breeze.EntityManager(_serviceLink);
 
-    var _trackTagIdsChanges = true;
-
     // extending QnA entity with TagIds model
     _manager.metadataStore.registerEntityTypeCtor('QnA', null, function (qna){
       var _tagIds = [];
 
-      Object.defineProperty(qna, 'TagIds', {
+      qna._setTagIds = function (newIds){
+        // newIds can be array of strings
+        // this guarantees newIds will be an array of integers
+        if (newIds && newIds.length > 0)
+        {
+          newIds = newIds.map(function (n){ return +n; });
+        }
+        _tagIds = newIds;
+      };
 
+      Object.defineProperty(qna, 'TagIds', {
         get : function (){
           return _tagIds;
         },
-
         set : function (newIds){
-
-          // newIds can be array of strings
-          // this guarantees newIds will be an array of integers
-          if (newIds && newIds.length > 0)
+          if (!_.isEqual(newIds, _tagIds) && this.entityAspect.entityState.isUnchanged())
           {
-            newIds = newIds.map(function (n){ return +n; });
+            this.entityAspect.originalValues.TagIds = _tagIds;
+            this.entityAspect.setModified();
           }
 
-          if (_trackTagIdsChanges && !_.isEqual(newIds, _tagIds))
-          {
-            // exoect only one change for now
-            var removeId = _.difference(_tagIds, newIds)[0];
-            if (angular.isDefined(removeId))
-            {
-              _(this.Maps).each(function (map){
-                if (map && map.Tag.Id === removeId)
-                {
-                  map.entityAspect.setDeleted();
-                  return;
-                }
-              });
-            }
-
-            var addId = _.difference(newIds, _tagIds)[0];
-            if (angular.isDefined(addId))
-            {
-              _manager.createEntity('MapQAT', {
-                QnA: this,
-                Tag: _manager.getEntityByKey('Tag', addId)
-              });
-            }
-            
-            if (this.entityAspect.entityState.isUnchanged())
-            {
-              this.entityAspect.originalValues.TagIds = _tagIds;
-              this.entityAspect.setModified();
-            }
-          }
-
-          _tagIds = newIds;
-
+          this._setTagIds(newIds);
         },
-
         enumerable : true,
         configurable : true
       });
 
-      qna.entityAspect.setDeleted = function (){
-        qna.entityAspect.constructor.prototype.setDeleted.call(qna.entityAspect);
-
-        _(qna.Maps).each(function (m){
-          m.entityAspect.setDeleted();
-        });
-      };
-    });
-
-    // extending Tag entity with renderQnAs method
-    _manager.metadataStore.registerEntityTypeCtor('Tag', function Tag(){
-
-      // refresh DOM dependant on TagIds
-      this.renderQnAs = function (){
-        var tempIds = [], _that = this;
-
-        // null all currently edited TagIds
-        _trackTagIdsChanges = false;
-        _(this.Maps).each(function (m, i){
-          // slice() <==> clone
-          // if the array is not clonned first, the DOM is unnotified
-          tempIds[i] = m.QnA.TagIds ? m.QnA.TagIds.slice() : [];
-          m.QnA.TagIds = null;
-        });
-
-        $timeout(function (){
-          // restore all currently edited TagIds
-          _(_that.Maps).each(function (m, i){ 
-            m.QnA.TagIds = tempIds[i];
-          });
-          _trackTagIdsChanges = true;
-        }, 500);  // enough time to wait for undoing changes
-      };
-    },
-
-    // extending Tag entityAspect
-    function (tag){
-      var aspect = tag.entityAspect;
-
-      // on every Tag's rejectChanges call refresh its QnA TagIds
-      aspect.rejectChanges = function (){
-        // calling super method
-        aspect.constructor.prototype.rejectChanges.call(aspect);
-        tag.renderQnAs();
-      };
-
-      // on every Tag's setDeleted modify QnA's TagIds
-      aspect.setDeleted = function (){
-        aspect.constructor.prototype.setDeleted.call(aspect);
-
-        _trackTagIdsChanges = false;
-        _(_manager.getEntities('QnA')).each(function (qna){
-          var tagIds = qna.TagIds.slice();
-          var i = tagIds.indexOf(tag.Id);
-
-          if (i > -1)
-          {
-            tagIds.splice(i, 1);
-            qna.TagIds = tagIds;
-            _(qna.Maps).find(function (m){
-              // Tag should be removed by now from the base setDeleted call
-              return m.Tag === null;
-            }).entityAspect.setDeleted();
-          }
-        });
-        _trackTagIdsChanges = true;
-
-        tag.renderQnAs();
-      };
     });
 
     // Public API here
@@ -239,11 +141,9 @@ angular.module('clientApp')
         return $q.all([qQnA, qTags]).then(function (data){
             var _QnAs = data[0].results;
 
-            _trackTagIdsChanges = false;
             _(_QnAs).each(function (qna){
-              qna.TagIds = _.pluck(_.pluck(qna.Maps, 'Tag'), 'Id').sort();
+              qna._setTagIds(_.pluck(_.pluck(qna.Maps, 'Tag'), 'Id').sort());
             });
-            _trackTagIdsChanges = true;
 
             return {
               QnAs: _QnAs,
@@ -254,28 +154,138 @@ angular.module('clientApp')
           });
       },
 
-      createTag: function (name){
-        return _manager.createEntity('Tag', { Name: name });
-      },
-
-      createQnA: function (){
-        return _manager.createEntity('QnA');
-      },
-
       // only for testing purposes
       getChanges: function (){
         return _manager.getChanges();
       },
 
       hasChanges: function (){
-        return _manager.hasChanges();
+        /*
+        // don't use _manager.hasChanges, it has a bug
+        // sometimes returns true, sometimes false for the same results
+        // or returns always false/true in the following case:
+        test: function (){
+          var t = _manager.getEntityByKey('Tag', 1);
+          t.entityAspect.setDeleted();
+          _manager.acceptChanges();
+          console.log('Tag', _manager.hasChanges());
+
+          var m = _manager.getEntityByKey('MapQAT', 1);
+          m.entityAspect.setDeleted();
+          _manager.acceptChanges();
+          console.log('MapQAT', _manager.hasChanges());
+        },
+        */
+        //return _manager.hasChanges();
+
+        return _manager.getChanges().length > 0;
       },
 
       rejectChanges: function (){
         return _manager.rejectChanges();
       },
 
-      saveChanges: function (){
+      createTag: function (name){
+        return _manager.createEntity('Tag', { Name: name });
+      },
+
+      saveTags: function (){
+        _(_manager.getChanges()).each(function (e){
+          // is Tag deleted
+          if (e.entityType.shortName === 'MapQAT')
+          {
+            var newTagIds = e.QnA.TagIds.slice();
+            newTagIds.splice(
+              newTagIds.indexOf(e.entityAspect.originalValues.TagId), 1
+            );
+            e.QnA._setTagIds(newTagIds);
+            e.entityAspect.setDeleted();
+          }
+        });
+
+        var renamedObj = [];
+        _(_manager.getChanges()).each(function (e){
+          // is Tag renamed
+          if (e.entityType.shortName === 'Tag' && e.entityAspect.entityState.isModified())
+          {
+            _(e.Maps).each(function (mapQAT){
+              if (!_.find(renamedObj, { 'id': mapQAT.QnA.Id }))
+              {
+                renamedObj.push({
+                  id: mapQAT.QnA.Id,
+                  qna: mapQAT.QnA,
+                  origTagIds: mapQAT.QnA.TagIds.slice()
+                });
+                // if TagIds is not nulled first, the DOM stays unnotified
+                mapQAT.QnA._setTagIds(null);
+              }
+            });
+          }
+        });
+        $timeout(function (){
+          _(renamedObj).each(function (o){
+            o.qna._setTagIds(o.origTagIds);
+          });
+        }, 500);  // enough time to wait for undoing changes
+
+        return _manager.saveChanges();
+      },
+
+      createQnA: function (){
+        return _manager.createEntity('QnA');
+      },
+
+      editQnA: function (qna){
+        var tagIds = qna.TagIds.slice(),
+          maps = qna.Maps.slice();
+
+        qna.entityAspect.setDetached();
+        var clonedQnA = _manager.createEntity('QnA', {
+          Id: qna.Id,
+          Question: qna.Question,
+          Answer: qna.Answer,
+          Maps: maps
+        }, breeze.EntityState.Unchanged);
+        clonedQnA._setTagIds(tagIds);
+
+        return clonedQnA;
+      },
+
+      saveQnA: function (qna, hasTagsChanged){
+        if (hasTagsChanged)
+        {
+          var forRemoval = [];
+          _(qna.Maps).each(function (m){
+            forRemoval.push(m);
+          });
+          _(qna.TagIds).each(function (tagId){
+            var i = _.findIndex(forRemoval, { TagId: tagId });
+            if (i > -1)
+            {
+              forRemoval.splice(i, 1);
+            }
+            else
+            {
+              _manager.createEntity('MapQAT', {
+                QnA: qna,
+                Tag: _manager.getEntityByKey('Tag', tagId)
+              });
+            }
+          });
+          _(qna.forRemoval).each(function (m){
+            m.entityAspect.setDeleted();
+          });
+        }
+
+        return _manager.saveChanges();
+      },
+
+      deleteQnA: function (qna){
+        _(qna.Maps.slice()).each(function (m){
+          m.entityAspect.setDeleted();
+        });
+        qna.entityAspect.setDeleted();
+
         return _manager.saveChanges();
       },
 

@@ -132,40 +132,27 @@ angular.module('clientApp')
         controller: 'EditTagsCtrl',
         keyboard: false,
         resolve: {
-          allTags: function (){
-            return $scope.allTags;
+          $mainScope: function (){
+            return $scope;
           }
         },
         templateUrl: 'modals/editTags.html',
         windowClass: 'editTagsDlg'
-      }).result.then(function (){
-        if (dataservice.hasChanges())
-        {
-          $scope.qInit = dataservice.saveChanges();
-        }
       });
     };
 
     $scope.showQnADlg = function (qna){
+      $scope.editedQnA = qna;
       $modal.open({
         backdrop: 'static',
         controller: 'EditQnACtrl',
         keyboard: false,
         resolve: {
-          allTags: function (){
-            return $scope.allTags;
-          },
-          qna: function (){
-            return qna;
+          $mainScope: function (){
+            return $scope;
           }
         },
         templateUrl: 'modals/editQnA.html'
-      }).result.then(function (newQna){
-        $scope.qInit = dataservice.saveChanges();
-        if (newQna)
-        {
-          $scope.QnAs.push(newQna);
-        }
       });
     };
 
@@ -179,9 +166,8 @@ angular.module('clientApp')
         },
         templateUrl: 'modals/SimpleDlg.html'
       }).result.then(function (){
-        qna.entityAspect.setDeleted();
         $scope.QnAs.splice($index, 1);
-        $scope.qInit = dataservice.saveChanges();
+        $scope.qInit = dataservice.deleteQnA(qna);
       });
     };
 

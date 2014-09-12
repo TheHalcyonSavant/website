@@ -1,12 +1,11 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('EditQnACtrl', function ($scope, $modalInstance, dataservice, allTags, qna, cancelChanges){
+  .controller('EditQnACtrl', function ($scope, $mainScope, $modalInstance, dataservice, cancelChanges){
+    var isNew = _.isEmpty($mainScope.editedQnA);
 
-    var isNew = _.isEmpty(qna);
-
-    $scope.allTags = allTags;
-    $scope.qna = qna || dataservice.createQnA();
+    $scope.allTags = $mainScope.allTags;
+    $scope.qna = dataservice[(isNew ? 'create' : 'edit')+'QnA']($mainScope.editedQnA);
 
     $scope.setFocus = function (element){
       if (isNew && this.qnaForm.isEmpty())
@@ -18,19 +17,32 @@ angular.module('clientApp')
 		$scope.save = function (){
       if (this.qnaForm.$valid)
       {
-        $modalInstance.close(isNew ? $scope.qna : null);
+        if (isNew)
+        {
+          $mainScope.QnAs.push($scope.qna);
+        }
+        else
+        {
+          var i = _.findIndex($mainScope.QnAs, { Id: $scope.qna.Id });
+          $mainScope.QnAs[i] = $scope.qna;
+        }
+        $mainScope.qInit = dataservice.saveQnA($scope.qna, this.qnaForm.selectTags.$dirty);
+        $modalInstance.close();
       }
     };
 
     $scope.cancel = function (){
       if (this.qnaForm.isEmpty())
       {
+        $scope.qna.entityAspect.setDetached();
         dataservice.rejectChanges();
         $modalInstance.dismiss('cancel');
         return;
       }
 
-      cancelChanges($modalInstance);
+      cancelChanges($modalInstance, function beforeRejectChanges(){
+        $scope.qna.entityAspect.setDetached();
+      });
     };
     
   })
@@ -57,7 +69,7 @@ angular.module('clientApp')
             }
 
             var result = true;
-            
+
             _($element[0]).each(function (control){
               var $c = $(control);
 
@@ -71,7 +83,7 @@ angular.module('clientApp')
                 return (result = false);
               }
             });
-
+            
             return result;
           };
 
