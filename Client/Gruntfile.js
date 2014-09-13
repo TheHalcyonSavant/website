@@ -182,47 +182,52 @@ module.exports = function (grunt) {
 
     // Automatically inject Bower components into the app
     wiredep: {
-      options: {
-        cwd: '<%= yeoman.app %>'
-      },
       app: {
         src: ['<%= yeoman.app %>/index.html'],
-        ignorePath:  /\.\.\//
+        options: {
+          ignorePath:  /\.\.\//
+        }
       },
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        ignorePath: /(\.\.\/){1,2}bower_components\//
+        options: {
+          ignorePath: /(\.\.\/){1,2}bower_components\//
+        }
       },
       testRunner: {
         src: ['<%= yeoman.test %>/runner.html'],
-        devDependencies: true,
-        exclude: [/bootstrap-sass-official/],
-        overrides: {
-          'jasmine': {
-            'main': [
-              'lib/jasmine-core/jasmine.css',
-              'lib/jasmine-core/jasmine.js',
-              'lib/jasmine-core/jasmine-html.js',
-              'lib/jasmine-core/boot.js'
-            ]
+        options: {
+          devDependencies: true,
+          exclude: [/bootstrap-sass-official/],
+          overrides: {
+            'jasmine': {
+              'main': [
+                'lib/jasmine-core/jasmine.css',
+                'lib/jasmine-core/jasmine.js',
+                'lib/jasmine-core/jasmine-html.js',
+                'lib/jasmine-core/boot.js'
+              ]
+            }
           }
         }
       },
       testKarma: {
         src: ['karma.conf.js'],
-        fileTypes: {
-          js: {
-            block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
-            detect: {
-              js: /'(.*\.js)'/gi
-            },
-            replace: {
-              js: '\'{{filePath}}\','
+        options: {
+          fileTypes: {
+            js: {
+              block: /(([\s\t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
+              detect: {
+                js: /'(.*\.js)'/gi
+              },
+              replace: {
+                js: '\'{{filePath}}\','
+              }
             }
-          }
-        },
-        devDependencies: true,
-        exclude: [/bootstrap-sass-official/, /jasmine/]
+          },
+          devDependencies: true,
+          exclude: [/bootstrap-sass-official/, /jasmine/]
+        }
       }
     },
 
