@@ -10,7 +10,6 @@ angular
     'ui.select2',
     'ui.grid',
     'ui.grid.edit',
-    'angular-inview',
     // load separated ui.bootstrap modules, because of bug inside ui.bootstrap
     // for some reason the navbar dropdown links aren't responding always on click event
     'ui.bootstrap.tabs', 'template/tabs/tab.html', 'template/tabs/tabset.html',

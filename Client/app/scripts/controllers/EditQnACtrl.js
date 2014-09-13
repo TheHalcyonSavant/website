@@ -5,14 +5,7 @@ angular.module('clientApp')
     var isNew = _.isEmpty($mainScope.editedQnA);
 
     $scope.allTags = $mainScope.allTags;
-    $scope.qna = dataservice[(isNew ? 'create' : 'edit')+'QnA']($mainScope.editedQnA);
-
-    $scope.setFocus = function (element){
-      if (isNew && this.qnaForm.isEmpty())
-      {
-        $(element).focus();
-      }
-    };
+    $scope.qna = dataservice[(isNew?'create':'edit')+'QnA']($mainScope.editedQnA);
 
 		$scope.save = function (){
       if (this.qnaForm.$valid)
