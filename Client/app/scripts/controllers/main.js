@@ -76,13 +76,40 @@ angular.module('clientApp')
         Answer: '',
         Tags: [],
         NoTags: false,
-        NotAnswered: false
+        NotAnswered: false,
+        Everything: ''
       });
     };
 
     $scope.clearFilters();
 
     $scope.filterQAT = function (qna){
+      var e = $scope.filterModel.Everything.toLowerCase();
+
+      if (!_.isEmpty(e))
+      {
+        if (_.contains(qna.Question.toLowerCase(), e))
+        {
+          return true;
+        }
+
+        if (_.contains(qna.Answer.toLowerCase(), e))
+        {
+          return true;
+        }
+
+        var result = false;
+
+        _(qna.Maps).each(function (m){
+          if (_.contains(m.Tag.Name.toLowerCase(), e))
+          {
+            return !(result = true);
+          }
+        });
+
+        return result;
+      }
+
       if ($scope.filterModel.NoTags && !_.isEmpty(qna.Maps))
       {
         return false;
@@ -93,8 +120,8 @@ angular.module('clientApp')
         return false;
       }
 
-      var q = $scope.filterModel.Question;
-      var a = $scope.filterModel.Answer;
+      var q = $scope.filterModel.Question.toLowerCase();
+      var a = $scope.filterModel.Answer.toLowerCase();
       var t = $scope.filterModel.Tags;
 
       if (q.length > 0 && !_.contains(qna.Question.toLowerCase(), q))
