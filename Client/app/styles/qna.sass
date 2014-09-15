@@ -7,6 +7,20 @@
 .input-sm::placeholder
 	color: #999
 
+@media (min-width: $screen-md-min)
+	[ths-zoom-input]
+		
+		> div, input
+			transition: all ease-in-out 1s
+
+		.anim-zoom-in
+			width: 100%
+
+		.anim-zoom-out, .anim-zoom-out input
+			width: 0%
+			padding: 0
+			border: none
+
 main
 
 	.filters

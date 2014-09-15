@@ -251,8 +251,8 @@ angular.module('clientApp')
         return clonedQnA;
       },
 
-      saveQnA: function (qna, hasTagsChanged){
-        if (hasTagsChanged)
+      saveQnA: function (qna){
+        if (qna)
         {
           var forRemoval = [];
           _(qna.Maps).each(function (m){

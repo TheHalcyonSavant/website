@@ -4,10 +4,18 @@ angular.module('clientApp')
   .directive('thsAutofocus', function ($timeout){
     return {
       restrict: 'A',
-      link: function (scope, iElement){
+      scope: {
+        // condition on when to autofocus
+        thsAutofocus: '&'
+      },
+      link: function (scope, $elem){
+        if (scope.thsAutofocus(scope) === false)
+        {
+          return;
+        }
+        
         $timeout(function (){
-          console.log(iElement);
-          $(iElement).focus();
+          $elem.focus();
         },500);
       }
     };
