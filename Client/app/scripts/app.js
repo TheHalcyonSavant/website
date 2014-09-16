@@ -14,7 +14,8 @@ angular
     // for some reason the navbar dropdown links aren't responding always on click event
     'ui.bootstrap.tabs', 'template/tabs/tab.html', 'template/tabs/tabset.html',
     'ui.bootstrap.modal', 'template/modal/backdrop.html', 'template/modal/window.html',
-    'ui.bootstrap.accordion', 'template/accordion/accordion-group.html', 'template/accordion/accordion.html'
+    'ui.bootstrap.accordion', 'template/accordion/accordion-group.html', 'template/accordion/accordion.html',
+    'ui.bootstrap.pagination', 'template/pagination/pager.html', 'template/pagination/pagination.html'
   ]).run(function ($rootScope, $state, $stateParams, $log){
 
     $rootScope.$state = $state;

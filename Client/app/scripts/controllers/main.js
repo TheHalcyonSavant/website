@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MainCtrl', function ($scope, dataservice, $modal){
+  .controller('MainCtrl', function ($scope, dataservice, $modal, $filter){
 
     $scope.qInit = dataservice.initialize().then(function (parentSkills){
       $scope.skills = parentSkills;
@@ -62,96 +62,42 @@ angular.module('clientApp')
       return dataservice.IsAdministrator;
     };
 
+    $scope.clearFilters = function (){
+      $scope.filterModel = $.extend({}, {
+        Answer: '',
+        Everything: '',
+        NoTags: false,
+        NotAnswered: false,
+        Question: '',
+        Tags: []
+      });
+    };
+
+    $scope.pager = {
+      currentPage: 1,
+      pageSize: 6
+    };
+
     $scope.initQATs = function (){
       dataservice.getQATs().then(function (result){
         $scope.QnAs = result.QnAs;
+        $scope.clearFilters();
+        $scope.pager.totalQnAs = result.QnAs.length;
+
         $scope.allTags = result.AllTags;
         $scope.allTags.push({});
       });
     };
 
-    $scope.clearFilters = function (){
-      $scope.filterModel = $.extend({}, {
-        Question: '',
-        Answer: '',
-        Tags: [],
-        NoTags: false,
-        NotAnswered: false,
-        Everything: ''
-      });
-    };
-
-    $scope.clearFilters();
-
-    $scope.filterQAT = function (qna){
-      var e = $scope.filterModel.Everything.toLowerCase();
-
-      if (!_.isEmpty(e))
+    $scope.$watch('filterModel', function (model){
+      $scope.pager.currentPage = 1;
+      $scope.filteredQnAs = $filter('qat')($scope.QnAs, model);
+      if ($scope.filteredQnAs)
       {
-        if (_.contains(qna.Question.toLowerCase(), e))
-        {
-          return true;
-        }
-
-        if (_.contains(qna.Answer.toLowerCase(), e))
-        {
-          return true;
-        }
-
-        var result = false;
-
-        _(qna.Maps).each(function (m){
-          if (_.contains(m.Tag.Name.toLowerCase(), e))
-          {
-            return !(result = true);
-          }
-        });
-
-        return result;
+        $scope.pager.totalQnAs = $scope.filteredQnAs.length;
+        $scope.pager.noOfPages = $scope.filteredQnAs.length / $scope.pager.pageSize;
       }
-
-      if ($scope.filterModel.NoTags && !_.isEmpty(qna.Maps))
-      {
-        return false;
-      }
-
-      if ($scope.filterModel.NotAnswered && !_.isEmpty(qna.Answer))
-      {
-        return false;
-      }
-
-      var q = $scope.filterModel.Question.toLowerCase();
-      var a = $scope.filterModel.Answer.toLowerCase();
-      var t = $scope.filterModel.Tags;
-
-      if (q.length > 0 && !_.contains(qna.Question.toLowerCase(), q))
-      {
-        return false;
-      }
-
-      if (a.length > 0 && !_.contains(qna.Answer.toLowerCase(), a))
-      {
-        return false;
-      }
-
-      if (t.length > 0)
-      {
-        var hasTags = true;
-
-        _(t).each(function (tagId){
-          if (!_.find(qna.Maps, function (m){
-            return m.Tag.Id.toString() === tagId;
-          }))
-          {
-            return (hasTags = false);
-          }
-        });
-
-        return hasTags;
-      }
-
-      return true;
-    };
+    }, true);
 
     $scope.showTagsDlg = function (){
       $modal.open({
