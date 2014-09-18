@@ -5,16 +5,17 @@ angular.module('clientApp')
 
     var _manager = dataservice.manager,
       _clonedQnA,
-      _modifiedQnA;
+      _originalQnA,
+      _originalTagIds;
 
     return {
 
       cancel: function (){
         _clonedQnA.entityAspect.setDetached();
-        if (_modifiedQnA)
+        if (_originalQnA)
         {
-          _manager.attachEntity(_modifiedQnA);
-          _modifiedQnA._setTagIds(_clonedQnA.TagIds.slice());
+          _manager.attachEntity(_originalQnA);
+          _originalQnA._setTagIds(_originalTagIds);
         }
         _manager.rejectChanges();
       },
@@ -35,18 +36,18 @@ angular.module('clientApp')
       },
 
       edit: function (qna){
-        var tagIds = qna.TagIds.slice(),
-          maps = qna.Maps.slice();
+        var maps = qna.Maps.slice();
 
-        _modifiedQnA = qna;
-        _modifiedQnA.entityAspect.setDetached();
+        _originalQnA = qna;
+        _originalTagIds = _originalQnA.TagIds.slice();
+        _originalQnA.entityAspect.setDetached();
         _clonedQnA = _manager.createEntity('QnA', {
           Id: qna.Id,
           Question: qna.Question,
           Answer: qna.Answer,
           Maps: maps
         }, breeze.EntityState.Unchanged);
-        _clonedQnA._setTagIds(tagIds);
+        _clonedQnA._setTagIds(_originalTagIds);
 
         return _clonedQnA;
       },
@@ -72,7 +73,7 @@ angular.module('clientApp')
               });
             }
           });
-          _(_clonedQnA.forRemoval).each(function (m){
+          _(forRemoval).each(function (m){
             m.entityAspect.setDeleted();
           });
         }
