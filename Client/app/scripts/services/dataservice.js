@@ -45,7 +45,10 @@ angular.module('clientApp')
 
       allSkills: [],
 
-      IsAdministrator: undefined,
+      // only for testing purposes
+      clearCache: function (){
+        $cacheFactory.get('$http').removeAll();
+      },
 
       initialize: function() {
         var that = this;
@@ -67,6 +70,8 @@ angular.module('clientApp')
             console.error(error);
           });
       },
+      
+      IsAdministrator: undefined,
 
       getParentSkills: function (){
         if (this.allSkills.length === 0)
@@ -91,11 +96,6 @@ angular.module('clientApp')
         }
 
         return skill;
-      },
-
-      // only for testing purposes
-      clearCache: function (){
-        $cacheFactory.get('$http').removeAll();
       },
 
       getReadme: function (projectName){
@@ -181,6 +181,8 @@ angular.module('clientApp')
         return _manager.getChanges().length > 0;
       },
 
+      manager: _manager,
+
       rejectChanges: function (){
         return _manager.rejectChanges();
       },
@@ -227,64 +229,6 @@ angular.module('clientApp')
             o.qna._setTagIds(o.origTagIds);
           });
         }, 500);  // enough time to wait for undoing changes
-
-        return _manager.saveChanges();
-      },
-
-      createQnA: function (){
-        return _manager.createEntity('QnA');
-      },
-
-      editQnA: function (qna){
-        var tagIds = qna.TagIds.slice(),
-          maps = qna.Maps.slice();
-
-        qna.entityAspect.setDetached();
-        var clonedQnA = _manager.createEntity('QnA', {
-          Id: qna.Id,
-          Question: qna.Question,
-          Answer: qna.Answer,
-          Maps: maps
-        }, breeze.EntityState.Unchanged);
-        clonedQnA._setTagIds(tagIds);
-
-        return clonedQnA;
-      },
-
-      saveQnA: function (qna){
-        if (qna)
-        {
-          var forRemoval = [];
-          _(qna.Maps).each(function (m){
-            forRemoval.push(m);
-          });
-          _(qna.TagIds).each(function (tagId){
-            var i = _.findIndex(forRemoval, { TagId: tagId });
-            if (i > -1)
-            {
-              forRemoval.splice(i, 1);
-            }
-            else
-            {
-              _manager.createEntity('MapQAT', {
-                QnA: qna,
-                Tag: _manager.getEntityByKey('Tag', tagId)
-              });
-            }
-          });
-          _(qna.forRemoval).each(function (m){
-            m.entityAspect.setDeleted();
-          });
-        }
-
-        return _manager.saveChanges();
-      },
-
-      deleteQnA: function (qna){
-        _(qna.Maps.slice()).each(function (m){
-          m.entityAspect.setDeleted();
-        });
-        qna.entityAspect.setDeleted();
 
         return _manager.saveChanges();
       },

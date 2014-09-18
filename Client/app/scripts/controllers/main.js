@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MainCtrl', function ($scope, dataservice, $modal, $filter){
+  .controller('MainCtrl', function ($scope, $modal, $filter, dataservice, QnARepo){
 
     $scope.qInit = dataservice.initialize().then(function (parentSkills){
       $scope.skills = parentSkills;
@@ -89,14 +89,18 @@ angular.module('clientApp')
       });
     };
 
-    $scope.$watch('filterModel', function (model){
-      $scope.pager.currentPage = 1;
-      $scope.filteredQnAs = $filter('qat')($scope.QnAs, model);
+    $scope.filterQnA = function (){
+      $scope.filteredQnAs = $filter('qat')($scope.QnAs, $scope.filterModel);
       if ($scope.filteredQnAs)
       {
         $scope.pager.totalQnAs = $scope.filteredQnAs.length;
         $scope.pager.noOfPages = $scope.filteredQnAs.length / $scope.pager.pageSize;
       }
+    };
+
+    $scope.$watch('filterModel', function (){
+      $scope.pager.currentPage = 1;
+      $scope.filterQnA();
     }, true);
 
     $scope.showTagsDlg = function (){
@@ -140,7 +144,7 @@ angular.module('clientApp')
         templateUrl: 'modals/SimpleDlg.html'
       }).result.then(function (){
         $scope.QnAs.splice($index, 1);
-        $scope.qInit = dataservice.deleteQnA(qna);
+        $scope.qInit = QnARepo.delete(qna);
       });
     };
 
