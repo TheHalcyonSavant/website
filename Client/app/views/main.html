@@ -11,7 +11,7 @@
           <span class="icon-bar"></span>
         </button>
         <div class="navbar-header">
-          <a class="navbar-brand" ui-sref-active="active" ui-sref="home">Home</a>
+          <a class="navbar-brand" ui-sref-active="active" ui-sref="main.home">Home</a>
         </div>
         <div class="navbar-header">
           <a class="navbar-brand skipHover" href="">Programming Languages:</a>
@@ -19,20 +19,20 @@
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav" ng-show="skills">
             <li ui-sref-active="active" ng-repeat="skill in skills" class="parentSkill dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="skill({id: skill.Id})">{{skill.Name}}</a>
+              <a class="dropdown-toggle" data-toggle="dropdown" ui-sref="main.skill({id: skill.Id})">{{skill.Name}}</a>
               <ul ng-show="skill.SubSkills" class="dropdown-menu">
                 <li ng-repeat="framework in skill.SubSkills" ui-sref-active="active" class="childSkill">
-                  <a ng-click="$event.stopPropagation()" ui-sref="skill({id: framework.Id})">{{framework.Name}}</a>
+                  <a ng-click="$event.stopPropagation()" ui-sref="main.skill({id: framework.Id})">{{framework.Name}}</a>
                 </li>
               </ul>
             </li>
           </ul>
         </div>
         <div class="navbar-header">
-          <a class="navbar-brand" ng-if="isAdmin()" ui-sref-active="active" ui-sref="qna">Questions &amp; Answers</a>
+          <a class="navbar-brand" ng-if="isAdmin" ui-sref-active="active" ui-sref="main.qat">Questions &amp; Answers</a>
         </div>
         <div class="navbar-header">
-          <a class="navbar-brand" ng-if="isAdmin()" ng-click="showRepopulateConfirmationDlg()">Repopulate Skills</a>
+          <a class="navbar-brand" ng-if="isAdmin" ng-click="showRepopulateConfirmationDlg()">Repopulate Skills</a>
         </div>
       </div>
     </nav>
@@ -43,13 +43,3 @@
 </div>
 
 <footer></footer>
-
-<script type="text/ng-template" id="modals/SimpleDlg.html">
-  <div class="modal-body">
-    <p>{{bodyText}}</p>
-  </div>
-  <div class="modal-footer">
-    <button class="btn btn-primary" ng-click="yes()">Yes</button>
-    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-  </div>
-</script>

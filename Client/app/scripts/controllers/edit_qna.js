@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('EditQnACtrl', function ($scope, $mainScope, $modalInstance, QnARepo, cancelChanges){
-    $scope.isNew = _.isEmpty($mainScope.editedQnA);
-    $scope.allTags = $mainScope.allTags;
-    $scope.qna = QnARepo[($scope.isNew ? 'create' : 'edit')]($mainScope.editedQnA);
+  .controller('EditQnACtrl', function ($modalInstance, $qatScope, $scope, cancelChanges, QnARepo){
+    $scope.isNew = _.isEmpty($qatScope.editedQnA);
+    $scope.allTags = $qatScope.allTags;
+    $scope.qna = QnARepo[($scope.isNew ? 'create' : 'edit')]($qatScope.editedQnA);
 
 		$scope.save = function (){
       if (!this.qnaForm.$valid)
@@ -14,15 +14,15 @@ angular.module('clientApp')
       
       if ($scope.isNew)
       {
-        $mainScope.QnAs.push($scope.qna);
+        $qatScope.QnAs.push($scope.qna);
       }
       else
       {
-        var i = _.findIndex($mainScope.QnAs, { Id: $scope.qna.Id });
-        $mainScope.QnAs[i] = $scope.qna;
+        var i = _.findIndex($qatScope.QnAs, { Id: $scope.qna.Id });
+        $qatScope.QnAs[i] = $scope.qna;
       }
-      $mainScope.filterQnA();
-      $mainScope.qInit = QnARepo.save(this.qnaForm.selectTags.$dirty);
+      $qatScope.filterQnA();
+      $qatScope.qInit = QnARepo.save(this.qnaForm.selectTags.$dirty);
       $modalInstance.close();
     };
 

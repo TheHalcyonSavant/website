@@ -2,21 +2,20 @@
 
 angular
   .module('clientApp', [
-    'ngSanitize',
-    'ngAnimate',
     'breeze.angular',
     'cgBusy',
-    'ui.router',
-    'ui.select2',
-    'ui.grid',
-    'ui.grid.edit',
+    'ngSanitize',
     // load separated ui.bootstrap modules, because of bug inside ui.bootstrap
     // for some reason the navbar dropdown links aren't responding always on click event
     'ui.bootstrap.tabs', 'template/tabs/tab.html', 'template/tabs/tabset.html',
     'ui.bootstrap.modal', 'template/modal/backdrop.html', 'template/modal/window.html',
     'ui.bootstrap.accordion', 'template/accordion/accordion-group.html', 'template/accordion/accordion.html',
-    'ui.bootstrap.pagination', 'template/pagination/pager.html', 'template/pagination/pagination.html'
-  ]).run(function ($rootScope, $state, $stateParams, $log){
+    'ui.bootstrap.pagination', 'template/pagination/pager.html', 'template/pagination/pagination.html',
+    'ui.grid',
+    'ui.grid.edit',
+    'ui.router',
+    'ui.select2'
+  ]).run(function ($log, $rootScope, $state, $stateParams){
 
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
@@ -28,17 +27,23 @@ angular
       .otherwise('/');
 
     $stateProvider
-      .state('home', {
-        url: '/',
-        templateUrl: 'views/home.html'
+      .state('main', {
+        controller: 'MainCtrl',
+        templateUrl: 'views/main.html'
       })
-      .state('skill', {
-        url: '/skill/:id',
-        templateUrl: 'views/projects.html'
+      .state('main.home', {
+        templateUrl: 'views/home.html',
+        url: '/'
       })
-      .state('qna', {
-        url: '/qna',
-        templateUrl: 'views/qna.html'
+      .state('main.skill', {
+        controller: 'ProjectsCtrl',
+        templateUrl: 'views/projects.html',
+        url: '/skill/:id'
+      })
+      .state('main.qat', {
+        controller: 'QATCtrl',
+        templateUrl: 'views/qat.html',
+        url: '/qat'
       });
     
   });

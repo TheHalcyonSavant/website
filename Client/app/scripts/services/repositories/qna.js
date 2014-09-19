@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('QnARepo', function (dataservice, breeze){
+  .factory('QnARepo', function ($q, breeze, data){
 
-    var _manager = dataservice.manager,
+    var _manager = data.manager,
       _clonedQnA,
       _originalQnA,
       _originalTagIds;
@@ -50,6 +50,32 @@ angular.module('clientApp')
         _clonedQnA._setTagIds(_originalTagIds);
 
         return _clonedQnA;
+      },
+
+      initialize: function (){
+        var qQnA = breeze.EntityQuery
+          .from('QnA')
+          .using(_manager)
+          .execute();
+        var qTags = breeze.EntityQuery
+          .from('Tags')
+          .using(_manager)
+          .execute();
+
+        return $q.all([qQnA, qTags]).then(function (data){
+            var _QnAs = data[0].results;
+
+            _(_QnAs).each(function (qna){
+              qna._setTagIds(_.pluck(_.pluck(qna.Maps, 'Tag'), 'Id').sort());
+            });
+
+            return {
+              QnAs: _QnAs,
+              AllTags: data[1].results
+            };
+          }).catch(function (error){
+            console.error(error);
+          });
       },
 
       save: function (isTagsChanged){

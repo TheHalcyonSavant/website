@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="styles/navbar.css">
     <link rel="stylesheet" href="styles/home.css">
     <link rel="stylesheet" href="styles/projects.css">
-    <link rel="stylesheet" href="styles/qna.css">
+    <link rel="stylesheet" href="styles/qat.css">
     <!-- endbuild -->
     <link rel="stylesheet" href="vendors/ui-grid-v3/ui-grid-unstable.css">
   </head>
@@ -36,9 +36,7 @@
     <![endif]-->
 
     <!-- Add your site or application content here -->
-    <div class="container"
-        ng-controller="MainCtrl"
-        ng-include="'views/main.html'"
+    <div class="container" ui-view
         cg-busy="{promise:qInit,delay:200,minDuration:1500}">
     </div>
 
@@ -90,18 +88,26 @@
     <!-- endbower -->
     <!-- endbuild -->
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/services/dataservice.js"></script>
-        <script src="scripts/services/repositories/QnARepo.js"></script>
-        <script src="scripts/directives/thsAutofocusDirective.js"></script>
-        <script src="scripts/directives/thsZoomInputDirective.js"></script>
-        <script src="scripts/filters/qatFilter.js"></script>
-        <script src="scripts/filters/pageCropFilter.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/controllers/EditTagsCtrl.js"></script>
-        <script src="scripts/controllers/EditQnACtrl.js"></script>
-        <!-- endbuild -->
-        <script src="vendors/ui-grid-v3/ui-grid-unstable.js"></script>
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/edit_tags.js"></script>
+    <script src="scripts/controllers/edit_qna.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/projects.js"></script>
+    <script src="scripts/controllers/qat.js"></script>
+    <script src="scripts/controllers/simpledlg.js"></script>
+    <script src="scripts/directives/autofocus.js"></script>
+    <script src="scripts/directives/zoominput.js"></script>
+    <script src="scripts/filters/misc.js"></script>
+    <script src="scripts/filters/pagecrop.js"></script>
+    <script src="scripts/filters/qat.js"></script>
+    <script src="scripts/services/cancelchanges.js"></script>
+    <script src="scripts/services/data.js"></script>
+    <script src="scripts/services/misc.js"></script>
+    <script src="scripts/services/repositories/qna.js"></script>
+    <script src="scripts/services/repositories/skills.js"></script>
+    <script src="scripts/services/repositories/tags.js"></script>
+    <!-- endbuild -->
+    <script src="vendors/ui-grid-v3/ui-grid-unstable.js"></script>
 </body>
 </html>
