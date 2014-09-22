@@ -89,10 +89,12 @@ namespace Server.DAL
 
     public class MainContext : AMainContext
     {
+
         static MainContext()
         {
             Database.SetInitializer(new MainDbInitializer());
         }
+
     }
 
 }

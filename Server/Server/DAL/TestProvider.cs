@@ -13,6 +13,10 @@ namespace Server.DAL
     public class TestContext : AMainContext
     {
         public DbSet<Test> Tests { get; set; }
+        static TestContext()
+        {
+            Database.SetInitializer(new TestDbInitializer());
+        }
 
         public TestContext() : base("TestSQLServer") { }
     }

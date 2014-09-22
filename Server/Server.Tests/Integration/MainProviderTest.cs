@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Server.DAL;
-using Server.Test_Data;
 using Xunit;
 
 namespace Server.Tests.Integration

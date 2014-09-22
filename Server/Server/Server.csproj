@@ -196,6 +196,7 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="DAL\SampleData.cs" />
     <Compile Include="DAL\MainProvider.cs" />
     <Compile Include="DAL\MyHttpClient.cs" />
     <Compile Include="DAL\TestProvider.cs" />
@@ -206,7 +207,7 @@
     <Compile Include="DAL\MainContext.cs" />
     <Compile Include="Models\GHProject.cs" />
     <Compile Include="Models\IEntity.cs" />
-    <Compile Include="DAL\MainDbInitializer.cs" />
+    <Compile Include="DAL\DbInitializers.cs" />
     <Compile Include="Models\MapQAT.cs" />
     <Compile Include="Models\MapSP.cs" />
     <Compile Include="Models\QnA.cs" />

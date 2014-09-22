@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clientApp')
-  .controller('MainCtrl', function ($modal, $scope, data, SkillsRepo){
+  .controller('MainCtrl', function ($modal, $scope, Data, SkillsRepo){
 
-    data.checkIsAdministrator().then(function (isAdmin){
+    Data.checkIsAdministrator().then(function (isAdmin){
       $scope.isAdmin = isAdmin;
     });
 
@@ -21,7 +21,7 @@ angular.module('clientApp')
         },
         templateUrl: 'views/simpledlg.html'
       }).result.then(function (){
-        $scope.qInit = data.repopulate().then(function (){
+        $scope.qInit = Data.repopulate().then(function (){
           location.reload(true);
         });
       });

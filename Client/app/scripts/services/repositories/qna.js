@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('QnARepo', function ($q, breeze, data){
+  .factory('QnARepo', function ($q, breeze, Data){
 
-    var _manager = data.manager,
+    var _manager = Data.manager,
       _clonedQnA,
       _originalQnA,
       _originalTagIds;

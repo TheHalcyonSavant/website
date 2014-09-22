@@ -2,7 +2,6 @@
 using Moq;
 using Octokit;
 using Server.DAL;
-using Server.Test_Data;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -19,7 +18,7 @@ namespace Server.Tests.Unit
             // Arrange
             IGitHub gh = new GitHub(Mock.Of<IGitHubClient>(
                 m => m.Repository == Mock.Of<IRepositoriesClient>(
-                    m2 => m2.GetAllForUser("TheHalcyonSavant") == Task.FromResult(Data.Repos)
+                    m2 => m2.GetAllForUser("TheHalcyonSavant") == Task.FromResult(SampleData.Repos)
                 )
             ));
 
@@ -51,13 +50,13 @@ namespace Server.Tests.Unit
             IGitHub gh = new GitHub(mockMyHttpClient.Object);
 
             // Act
-            var projectsStreams = gh.getProjectsStreams(Data.Projects).Result;
+            var projectsStreams = gh.getProjectsStreams(SampleData.Projects).Result;
 
             // Assert
             projectsStreams.Should().NotBeEmpty();
             projectsStreams.Should().HaveCount(4);
             var kvp = projectsStreams.Last();
-            kvp.Key.Should().Be(Data.Projects.Last());
+            kvp.Key.Should().Be(SampleData.Projects.Last());
             kvp.Value.Should().NotBeNull();
             kvp.Value.Should().Be(stream);
         }
@@ -138,7 +137,7 @@ namespace Server.Tests.Unit
             IGitHub gh = new GitHub();
 
             // Act
-            var maps = gh.getMapSP(Data.ProjectsSkills);
+            var maps = gh.getMapSP(SampleData.ProjectsSkills);
 
             // Assert
             maps.Should().NotBeNullOrEmpty();

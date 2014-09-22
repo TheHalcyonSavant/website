@@ -3,7 +3,7 @@
 angular.module('clientApp')
   .controller('QATCtrl', function ($filter, $modal, $scope, QnARepo){
 
-    QnARepo.initialize().then(function (result){
+    $scope.qInit = QnARepo.initialize().then(function (result){
       $scope.QnAs = result.QnAs;
       $scope.clearFilters();
       $scope.pager.totalQnAs = result.QnAs.length;

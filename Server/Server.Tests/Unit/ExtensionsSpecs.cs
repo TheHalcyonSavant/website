@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.Owin;
 using Moq;
-using Server.Test_Data;
 using System.Net.Http;
 using System.ServiceModel.Channels;
 using Xunit;
@@ -16,7 +15,7 @@ namespace Server.Tests.Unit
         public void GetClientIpAddress_should_return_ip_when_webhosted()
         {
             // Arrange
-            var request = Data.getMockedHttpRequest(_expectedIP);
+            var request = Helpers.getMockedHttpRequest(_expectedIP);
 
             // Act
             string actualIP = request.GetClientIpAddress();

@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using Server.DAL;
-using Server.Test_Data;
 using System.Data.Entity;
 using Xunit;
 
@@ -29,7 +28,7 @@ namespace Server.Tests.Integration
             using (IMainContext context = new TestContext())
             {
                 IGitHub gh = new GitHub();
-                var maps = gh.getMapSP(Data.ProjectsSkills);
+                var maps = gh.getMapSP(SampleData.ProjectsSkills);
                 context.AddMaps(maps);
                 context.SaveChanges();
             }
@@ -103,12 +102,6 @@ namespace Server.Tests.Integration
         [Fact]
         public void QnA_should_return_Questions_Answers_with_Tags_from_DB()
         {
-            using (IMainContext context = new TestContext())
-            {
-                context.MapsQAT.AddRange(Data.QATs);
-                context.SaveChanges();
-            }
-
             using (IMainContext context = new TestContext())
             {
                 context.MapsQAT.Should().HaveCount(7);

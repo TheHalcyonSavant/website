@@ -27,6 +27,13 @@ namespace Server.Controllers
             return _cxtProvider.Metadata();
         }
 
+        // ~/breeze/Test/Skills
+        [HttpGet]
+        public IQueryable<GHSkill> Skills()
+        {
+            return _context.getAllSkillsWithProjects();
+        }
+
         // ~/breeze/Test/QnA
         [HttpGet]
         public IQueryable<QnA> QnA()

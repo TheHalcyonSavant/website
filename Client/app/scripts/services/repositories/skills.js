@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('SkillsRepo', function ($q, breeze, data){
+  .factory('SkillsRepo', function ($q, breeze, Data){
 
-  	var _manager = data.manager;
+  	var _manager = Data.manager;
 
     return {
 
@@ -12,7 +12,7 @@ angular.module('clientApp')
       getParentSkills: function (allSkills){
         if (allSkills.length === 0)
         {
-          throw new Error('allSkills = []; Click "Repopulate skills" first !');
+          throw new Error('allParentSkills = []; Click "Repopulate skills" first !');
         }
 
         var query = breeze.EntityQuery
@@ -24,7 +24,7 @@ angular.module('clientApp')
       },
 
       getReadme: function (projectName){
-        return data.getGitHubHTML(projectName + '/readme')
+        return Data.getGitHubHTML(projectName + '/readme')
           .then(function (jqHtml){
             jqHtml.find('a.anchor').remove();
             jqHtml.find('a').each(function () {

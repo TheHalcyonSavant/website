@@ -3,7 +3,6 @@ using Moq;
 using Server.Controllers;
 using Server.DAL;
 using Server.Models;
-using Server.Test_Data;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,7 +29,7 @@ namespace Server.Tests.Unit
         {
             return new MainController()
             {
-                Request = Data.getMockedHttpRequest(ip)
+                Request = Helpers.getMockedHttpRequest(ip)
             };
         }
 
@@ -99,11 +98,11 @@ namespace Server.Tests.Unit
             var badYamlPath = @"Test_Data\bad_languages.yml";
             Stream fsYaml = File.OpenRead(badYamlPath);
             var reader = new StreamReader(fsYaml);
-            IDictionary<GHProject, Stream> mockedProjectsStreams = Data.Projects.ToDictionary(
+            IDictionary<GHProject, Stream> mockedProjectsStreams = SampleData.Projects.ToDictionary(
                 p => p, p => fsYaml
             );
             BadYamlException exception = new BadYamlException("Bad languages.yml. Check YamlText property.", reader);
-            HttpRequestMessage request = Data.getMockedHttpRequest(_ipPublic);
+            HttpRequestMessage request = Helpers.getMockedHttpRequest(_ipPublic);
 
             request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
             mockGitHub.Setup(m => m.getProjectsStreams(It.IsAny<ICollection<GHProject>>()))
@@ -140,7 +139,7 @@ namespace Server.Tests.Unit
             // Arrange
             var mockGitHub = new Mock<IGitHub>();
             var mockGHContext = new Mock<IMainContext>();
-            IDictionary<GHProject, Stream> mockedProjectsStreams = Data.Projects.ToDictionary(
+            IDictionary<GHProject, Stream> mockedProjectsStreams = SampleData.Projects.ToDictionary(
                 p => p, p => Mock.Of<Stream>()
             );
 
@@ -149,7 +148,7 @@ namespace Server.Tests.Unit
 
             using (var c = new MainController(mockGHContext.Object, mockGitHub.Object)
             {
-                Request = Data.getMockedHttpRequest(_ipLocal)
+                Request = Helpers.getMockedHttpRequest(_ipLocal)
             })
             {
                 // Act
@@ -160,7 +159,7 @@ namespace Server.Tests.Unit
                 mockGHContext.Verify(x => x.DropGHTables(), Times.Once);
                 mockGitHub.Verify(h => h.getProjects(), Times.Once);
                 mockGitHub.Verify(h => h.getProjectsStreams(It.IsAny<ICollection<GHProject>>()), Times.Once);
-                mockGitHub.Verify(h => h.getSkillsFromStream(It.IsAny<Stream>()), Times.Exactly(Data.Projects.Count));
+                mockGitHub.Verify(h => h.getSkillsFromStream(It.IsAny<Stream>()), Times.Exactly(SampleData.Projects.Count));
                 mockGitHub.Verify(h => h.getMapSP(It.IsAny<IDictionary<GHProject, IList<GHSkill>>>()), Times.Once);
                 mockGHContext.Verify(x => x.AddMaps(It.IsAny<ICollection<MapSP>>()), Times.Once);
                 mockGHContext.Verify(x => x.SaveChanges(), Times.Once);
@@ -174,7 +173,7 @@ namespace Server.Tests.Unit
             var mockGHContext = new Mock<IMainContext>();
             using (var c = new MainController(mockGHContext.Object)
             {
-                Request = Data.getMockedHttpRequest(_ipForeign)
+                Request = Helpers.getMockedHttpRequest(_ipForeign)
             })
             {
                 // Act
@@ -191,7 +190,7 @@ namespace Server.Tests.Unit
             var mockGHContext = new Mock<IMainContext>();
             using (var c = new MainController(mockGHContext.Object)
             {
-                Request = Data.getMockedHttpRequest(_ipPublic)
+                Request = Helpers.getMockedHttpRequest(_ipPublic)
             })
             {
                 // Act

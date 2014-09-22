@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('cancelChanges', function ($modal, data){
+  .factory('cancelChanges', function ($modal, Data){
     return function ($modalInstance, cb){
-      if (!data.hasChanges())
+      if (!Data.hasChanges())
       {
         $modalInstance.dismiss('cancel');
         return;
@@ -22,7 +22,7 @@ angular.module('clientApp')
         {
           cb();
         }
-        data.rejectChanges();
+        Data.rejectChanges();
         $modalInstance.dismiss('cancel');
       });
     };

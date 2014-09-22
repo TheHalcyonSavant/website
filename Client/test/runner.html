@@ -41,20 +41,48 @@
     <script src="../bower_components/angular-mocks/angular-mocks.js"></script>
     <!-- endbower -->
 
+    <!-- app/scripts -->
     <script src="../app/scripts/app.js"></script>
-    <script src="../app/scripts/services/dataservice.js"></script>
-    <script src="../app/scripts/services/repositories/QnARepo.js"></script>
-    <script src="../app/scripts/directives/thsAutofocusDirective.js"></script>
-    <script src="../app/scripts/directives/thsZoomInputDirective.js"></script>
-    <script src="../app/scripts/filters/qatFilter.js"></script>
-    <script src="../app/scripts/filters/pageCropFilter.js"></script>
+    <script src="../app/scripts/controllers/edit_tags.js"></script>
+    <script src="../app/scripts/controllers/edit_qna.js"></script>
     <script src="../app/scripts/controllers/main.js"></script>
-    <script src="../app/scripts/controllers/EditTagsCtrl.js"></script>
-    <script src="../app/scripts/controllers/EditQnACtrl.js"></script>
+    <script src="../app/scripts/controllers/projects.js"></script>
+    <script src="../app/scripts/controllers/qat.js"></script>
+    <script src="../app/scripts/controllers/simpledlg.js"></script>
+    <script src="../app/scripts/directives/autofocus.js"></script>
+    <script src="../app/scripts/directives/zoominput.js"></script>
+    <script src="../app/scripts/filters/misc.js"></script>
+    <script src="../app/scripts/filters/pagecrop.js"></script>
+    <script src="../app/scripts/filters/qat.js"></script>
+    <script src="../app/scripts/services/cancelchanges.js"></script>
+    <script src="../app/scripts/services/data.js"></script>
+    <script src="../app/scripts/services/misc.js"></script>
+    <script src="../app/scripts/services/repositories/qna.js"></script>
+    <script src="../app/scripts/services/repositories/skills.js"></script>
+    <script src="../app/scripts/services/repositories/tags.js"></script>
 
-    <script src="mock/MainCtrlMocks.js"></script>
-    <script src="spec/services/dataservice_unit.js"></script>
+    <!-- app/vendors -->
+    <script src="../app/vendors/ui-grid-v3/ui-grid-unstable.js"></script>
+
+    <!-- mocks -->
+    <script src="mock/auxiliary.js"></script>
+    <script src="mock/data.js"></script>
+    <script src="mock/modal.js"></script>
+    <script src="mock/qna_repo.js"></script>
+    <script src="mock/skills_repo.js"></script>
+
+    <!-- filters -->
+    <script src="spec/filters/qat.js"></script>
+
+    <!-- services -->
+    <script src="spec/services/data_unit.js"></script>
+    <script src="spec/services/repositories/qna.js"></script>
+    <script src="spec/services/repositories/skills.js"></script>
+
+    <!-- controller -->
     <script src="spec/controllers/main_unit.js"></script>
+    <script src="spec/controllers/projects_unit.js"></script>
+    <script src="spec/controllers/qat_unit.js"></script>
 
     <script>
     </script>

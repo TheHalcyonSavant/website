@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('clientApp')
-  .factory('TagsRepo', function ($q, $timeout, breeze, data){
-    var _manager = data.manager;
+  .factory('TagsRepo', function ($q, $timeout, breeze, Data){
+    var _manager = Data.manager;
 
     return {
       
@@ -11,7 +11,7 @@ angular.module('clientApp')
       },
 
       saveTags: function (){
-        if (!data.hasChanges()) { return; }
+        if (!Data.hasChanges()) { return; }
 
         _(_manager.getChanges()).each(function (e){
           // is Tag deleted

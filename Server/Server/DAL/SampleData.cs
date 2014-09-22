@@ -1,14 +1,11 @@
-﻿using Moq;
-using Octokit;
+﻿using Octokit;
 using Server.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
-using System.Web;
 
-namespace Server.Test_Data
+namespace Server.DAL
 {
-    public static class Data
+    public static class SampleData
     {
 
         public static IReadOnlyList<Repository> Repos = new List<Repository>
@@ -100,7 +97,7 @@ namespace Server.Test_Data
             new QnA
             {
                 Question = "Test Question 1 ?",
-                Answer = "Test answer 1."
+                Answer = "Test Answer 1."
             },
             new QnA
             {
@@ -144,14 +141,7 @@ namespace Server.Test_Data
             new MapQAT { QnA = QnAs[4], Tag = Tags[1] }
         };
 
-        public static IList<Test> Tests = new List<Test>
-        {
-            new Test { Id = 1, Name = "Test 1" },
-            new Test { Id = 2, Name = "Test 2" },
-            new Test { Id = 3, Name = "Test 3" }
-        };
-
-        static Data()
+        static SampleData()
         {
             var s = SkillsOfSkills;
 
@@ -177,16 +167,20 @@ namespace Server.Test_Data
             s[3][3].ParentSkill = s[3][0];  // Interop.Excel.dll
         }
 
-        public static HttpRequestMessage getMockedHttpRequest(string testIp)
+        public static void Seed(IMainContext context)
         {
-            var httpRequest = new HttpRequestMessage();
+            context.Database.ExecuteSqlCommand(Properties.Resources.CreateUserLogin);
+            context.Database.ExecuteSqlCommand(Properties.Resources.drop_sp1);
+            context.Database.ExecuteSqlCommand(Properties.Resources.sp1_GHTables);
 
-            httpRequest.Properties[Extensions.HTTP_CONTEXT] = Mock.Of<HttpContextBase>(
-                c => c.Request == Mock.Of<HttpRequestBase>(r => r.UserHostAddress == testIp)
-            );
+            IGitHub gh = new GitHub();
+            context.AddMaps(gh.getMapSP(ProjectsSkills));
 
-            return httpRequest;
+            context.QnAs.AddRange(QnAs);
+            context.Tags.AddRange(Tags);
+            context.MapsQAT.AddRange(QATs);
         }
+
     }
 
 }
