@@ -13,7 +13,7 @@ angular.module('clientApp')
           return true;
         }
 
-        if (_.contains(qna.Answer.toLowerCase(), e))
+        if (!_.isEmpty(qna.Answer) && _.contains(qna.Answer.toLowerCase(), e))
         {
           return true;
         }
@@ -49,9 +49,12 @@ angular.module('clientApp')
         return false;
       }
 
-      if (a.length > 0 && !_.contains(qna.Answer.toLowerCase(), a))
+      if (a.length > 0)
       {
-        return false;
+        if (_.isEmpty(qna.Answer) || !_.contains(qna.Answer.toLowerCase(), a))
+        {
+          return false;
+        }
       }
 
       if (t.length > 0)

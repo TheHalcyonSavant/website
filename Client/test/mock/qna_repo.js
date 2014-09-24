@@ -30,7 +30,7 @@ angular.module('QnARepoMock', ['ng']).provider({
         },
         {
           Question: 'Some empty Question',
-          Answer: '',
+          Answer: null,
           Maps: null
         }
       ];

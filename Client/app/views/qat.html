@@ -107,7 +107,7 @@
 </script>
 
 <script type="text/ng-template" id="modals/editQnA.html">
-	<div class="modal-header">Edit Question</div>
+	<div class="modal-header">{{isNew ? 'New': 'Edit'}} Question</div>
 	<div class="modal-body">
 		<form class="form-horizontal" name="qnaForm" role="form">
 			<div class="form-group" ng-class="{'has-error': qnaForm.inputQuestion.$invalid}">
