@@ -20,7 +20,7 @@ bower update
 ```
 
 ###Run
-Before you run `grunt serve` make sure the Server ASP.NET app it already started in the background under IIS Express, or is published in the ../Deploy directory under IIS. Also, make sure `_serviceLink` variable from [dataservice.js](app/scripts/services/dataservice.js#L6) points to the running WebAPI. For example, if you've started Server under http://localhost:61385, then _serviceLink must be 'http://localhost:61385/breeze/Main'.
+Before you run `grunt serve` make sure the Server ASP.NET app is already started in the background under IIS Express, or is published in the ../Deploy directory under IIS. Also, make sure `_serviceLink` variable from [dataservice.js](app/scripts/services/dataservice.js#L6) points to the running WebAPI. For example, if you've started Server under http://localhost:61385, then `_serviceLink` must be `http://localhost:61385/breeze/Main`.
 
 `grunt serve` = real-time debug and preview on localhost:9000  
 `grunt test` = unit test  
