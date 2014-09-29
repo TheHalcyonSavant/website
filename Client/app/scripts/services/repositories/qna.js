@@ -32,6 +32,7 @@ angular.module('clientApp')
         });
         qna.entityAspect.setDeleted();
 
+        //return _manager.acceptChanges();
         return _manager.saveChanges();
       },
 
@@ -104,6 +105,7 @@ angular.module('clientApp')
           });
         }
 
+        //return _manager.acceptChanges();
         return _manager.saveChanges();
       }
 

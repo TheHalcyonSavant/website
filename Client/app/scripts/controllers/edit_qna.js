@@ -21,8 +21,8 @@ angular.module('clientApp')
         var i = _.findIndex($qatScope.QnAs, { Id: $scope.qna.Id });
         $qatScope.QnAs[i] = $scope.qna;
       }
-      $qatScope.filterQnA();
       $qatScope.qInit = QnARepo.save(this.qnaForm.selectTags.$dirty);
+      $qatScope.filterQnA();
       $modalInstance.close();
     };
 
