@@ -1,0 +1,16 @@
+<div class="modal-header">Edit Tags</div>
+<div class="modal-body">
+	<div class="tagsGrid" ui-grid="tagsGridOptions" ui-grid-edit external-scopes="tagsGridScope"></div>
+</div>
+<div class="modal-footer">
+	<button class="btn btn-success" ng-click="save()">Save</button>
+	<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>
+
+<script type="text/ng-template" id="gridBtnDeleteCell.html">
+	<div class="ngCellText cellBtnDeleteRow" ng-if="row.entity.Id">
+		<button class="btn btn-danger btn-xs" ng-click="getExternalScopes().deleteTag(row.entity.Id)">
+			<span class="glyphicon glyphicon-minus-sign"></span>
+		</button>
+	</div>
+</script>

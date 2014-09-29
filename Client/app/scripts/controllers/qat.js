@@ -52,7 +52,7 @@ angular.module('clientApp')
             return $scope;
           }
         },
-        templateUrl: 'modals/editTags.html',
+        templateUrl: 'views/editTags.html',
         windowClass: 'editTagsDlg'
       });
     };
@@ -68,7 +68,7 @@ angular.module('clientApp')
             return $scope;
           }
         },
-        templateUrl: 'modals/editQnA.html'
+        templateUrl: 'views/editQnA.html'
       });
     };
 
@@ -80,9 +80,10 @@ angular.module('clientApp')
             return 'Are you sure ?';
           }
         },
-        templateUrl: 'modals/SimpleDlg.html'
+        templateUrl: 'views/simpledlg.html'
       }).result.then(function (){
-        $scope.QnAs.splice($index, 1);
+        $scope.QnAs.splice(_.findIndex($scope.QnAs, { Id: qna.Id }), 1);
+        $scope.filteredQnAs.splice($index, 1);
         $scope.qInit = QnARepo.delete(qna);
       });
     };
