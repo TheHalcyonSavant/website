@@ -36,7 +36,7 @@ module.exports = function (grunt) {
       },
       js: {
         files: ['<%= yeoman.app %>/scripts/**/*.js'],
-        tasks: ['newer:jshint:all'],
+        tasks: ['newer:jshint:all', 'newer:jshint:data'],
         options: {
           livereload: '<%= connect.options.livereload %>'
         }
@@ -127,15 +127,23 @@ module.exports = function (grunt) {
 
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
+      options: grunt.file.readJSON('.jshintrc'),
+      /*options: {
+        jshintrc: 'jshintrc',
+        //reporter: require('jshint-stylish')
+      },*/
       all: {
         src: [
           'Gruntfile.js',
-          '<%= yeoman.app %>/scripts/**/*.js'
+          '<%= yeoman.app %>/scripts/**/*.js',
+          '!<%= yeoman.app %>/scripts/services/data.js'
         ]
+      },
+      data: {
+        options: {
+          quotmark: false
+        },
+        src: '<%= yeoman.app %>/scripts/services/data.js'
       },
       test: {
         options: {
