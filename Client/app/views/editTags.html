@@ -8,7 +8,7 @@
 </div>
 
 <script type="text/ng-template" id="gridBtnDeleteCell.html">
-	<div class="ngCellText cellBtnDeleteRow" ng-if="row.entity.Id">
+	<div class="ui-grid-cell-contents cellBtnDeleteRow" ng-if="row.entity.Id">
 		<button class="btn btn-danger btn-xs" ng-click="getExternalScopes().deleteTag(row.entity.Id)">
 			<span class="glyphicon glyphicon-minus-sign"></span>
 		</button>
